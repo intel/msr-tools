@@ -76,7 +76,7 @@ void usage(void)
 	  "  --help         -h  Print this help\n"
 	  "  --version      -V  Print current version\n"
 	  "  --hexadecimal  -x  Hexadecimal output (lower case)\n"
-	  "  --captial-hex  -X  Hexadecimal output (upper case)\n"
+	  "  --capital-hex  -X  Hexadecimal output (upper case)\n"
 	  "  --decimal      -d  Signed decimal output\n"
 	  "  --unsigned     -u  Unsigned decimal output\n"
 	  "  --octal        -o  Octal output\n"
