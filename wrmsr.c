@@ -105,15 +105,10 @@ int main(int argc, char *argv[])
     }
   }
   
-  if ( lseek(fd, reg, SEEK_SET) != reg ) {
-    perror("wrmsr:seek");
-    exit(127);
-  }
-
   while ( optind < argc ) {
-    data = strtouq(argv[optind++], NULL, 0);
-    if ( write(fd, &data, sizeof data) != sizeof data ) {
-      perror("wrmsr:write");
+    data = strtoull(argv[optind++], NULL, 0);
+    if ( pwrite(fd, &data, sizeof data, reg) != sizeof data ) {
+      perror("wrmsr:pwrite");
       exit(127);
     }
   }
@@ -122,4 +117,3 @@ int main(int argc, char *argv[])
 
   exit(0);
 }
-

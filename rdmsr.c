@@ -182,13 +182,8 @@ int main(int argc, char *argv[])
     }
   }
   
-  if ( lseek(fd, reg, SEEK_SET) != reg ) {
-    perror("rdmsr:seek");
-    exit(127);
-  }
-
-  if ( read(fd, &data, sizeof data) != sizeof data ) {
-    perror("rdmsr:read");
+  if ( pread(fd, &data, sizeof data, reg) != sizeof data ) {
+    perror("rdmsr:pread");
     exit(127);
   }
 
