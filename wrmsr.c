@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
     case 'h':
       usage();
       exit(0);
-    case 'v':
+    case 'V':
       fprintf(stderr, "%s: version %s\n", program, VERSION_STRING);
       exit(0);
     case 'p':
