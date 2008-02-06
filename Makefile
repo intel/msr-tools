@@ -1,4 +1,3 @@
-#ident "$Id$"
 ## -----------------------------------------------------------------------
 ##   
 ##   Copyright 2000 Transmeta Corporation - All Rights Reserved
