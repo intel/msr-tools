@@ -186,8 +186,8 @@ int main(int argc, char *argv[])
 
 	if (pread(fd, &data, sizeof data, reg) != sizeof data) {
 		if (errno == EIO) {
-			fprintf(stderr,
-				"rdmsr: CPU %d cannot read MSR 0x%"PRIx32"\n",
+			fprintf(stderr, "rdmsr: CPU %d cannot read "
+				"MSR 0x%08"PRIx32"\n",
 				cpu, reg);
 			exit(4);
 		} else {

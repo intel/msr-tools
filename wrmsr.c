@@ -115,7 +115,7 @@ int main(int argc, char *argv[])
 			if (errno == EIO) {
 				fprintf(stderr,
 					"wrmsr: CPU %d cannot set MSR "
-					"0x%"PRIx32" to 0x%"PRIx64"\n",
+					"0x%08"PRIx32" to 0x%016"PRIx64"\n",
 					cpu, reg, data);
 				exit(4);
 			} else {
