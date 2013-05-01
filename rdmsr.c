@@ -25,6 +25,8 @@
 #include <getopt.h>
 #include <inttypes.h>
 #include <sys/types.h>
+#include <dirent.h>
+#include <ctype.h>
 
 #include "version.h"
 
@@ -41,12 +43,13 @@ static const struct option long_options[] = {
 	{"zero-fill",		0, 0, '0'},
 	{"zero-pad",		0, 0, '0'},
 	{"raw",			0, 0, 'r'},
+	{"all",			0, 0, 'a'},
 	{"processor",		1, 0, 'p'},
 	{"cpu",			1, 0, 'p'},
 	{"bitfield",		1, 0, 'f'},
 	{0, 0, 0, 0}
 };
-static const char short_options[] = "hVxXdoruc0p:f:";
+static const char short_options[] = "hVxXdoruc0ap:f:";
 
 /* Number of decimal digits for a certain number of bits */
 /* (int) ceil(log(2^n)/log(10)) */
@@ -84,23 +87,44 @@ void usage(void)
 		"  --c-language   -c  Format output as a C language constant\n"
 		"  --zero-pad     -0  Output leading zeroes\n"
 		"  --raw          -r  Raw binary output\n"
+		"  --all          -a  all processors\n"
 		"  --processor #  -p  Select processor number (default 0)\n"
 		"  --bitfield h:l -f  Output bits [h:l] only\n", program);
 }
 
+void rdmsr_on_cpu(uint32_t reg, int cpu);
+
+/* filter out ".", "..", "microcode" in /dev/cpu */
+int dir_filter(const struct dirent *dirp) {
+	if (isdigit(dirp->d_name[0]))
+		return 1;
+	else
+		return 0;
+}
+
+void rdmsr_on_all_cpus(uint32_t reg)
+{
+	struct dirent **namelist;
+	int dir_entries;
+
+	dir_entries = scandir("/dev/cpu", &namelist, dir_filter, 0);
+	while (dir_entries--) {
+		rdmsr_on_cpu(reg, atoi(namelist[dir_entries]->d_name));
+		free(namelist[dir_entries]);
+	}
+	free(namelist);
+}
+
+unsigned int highbit = 63, lowbit = 0;
+int mode = mo_hex;
+
 int main(int argc, char *argv[])
 {
 	uint32_t reg;
-	uint64_t data;
-	int c, fd;
-	int mode = mo_hex;
+	int c;
 	int cpu = 0;
-	unsigned int highbit = 63, lowbit = 0, bits;
 	unsigned long arg;
 	char *endarg;
-	char *pat;
-	int width;
-	char msr_file_name[64];
 
 	program = argv[0];
 
@@ -139,6 +163,9 @@ int main(int argc, char *argv[])
 		case '0':
 			mode |= mo_fill;
 			break;
+		case 'a':
+			cpu = -1;
+			break;
 		case 'p':
 			arg = strtoul(optarg, &endarg, 0);
 			if (*endarg || arg > 255) {
@@ -167,6 +194,23 @@ int main(int argc, char *argv[])
 	}
 
 	reg = strtoul(argv[optind], NULL, 0);
+
+	if (cpu == -1) {
+		rdmsr_on_all_cpus(reg);
+	}
+	else
+		rdmsr_on_cpu(reg, cpu);
+	exit(0);
+}
+
+void rdmsr_on_cpu(uint32_t reg, int cpu)
+{
+	uint64_t data;
+	int fd;
+	char *pat;
+	int width;
+	char msr_file_name[64];
+	unsigned int bits;
 
 	sprintf(msr_file_name, "/dev/cpu/%d/msr", cpu);
 	fd = open(msr_file_name, O_RDONLY);
@@ -308,6 +352,5 @@ int main(int argc, char *argv[])
 
 	if (pat)
 		printf(pat, width, data);
-
-	exit(0);
+	return;
 }
