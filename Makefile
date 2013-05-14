@@ -18,7 +18,7 @@ CC       = gcc -Wall
 CFLAGS   = -g -O2 -fomit-frame-pointer -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64
 LDFLAGS  = 
 
-BIN	= wrmsr rdmsr
+BIN	= wrmsr rdmsr cpuid
 
 sbindir = /usr/sbin
 
