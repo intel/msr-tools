@@ -168,12 +168,27 @@ static void dump_levels(int cpu, uint32_t region)
 	}
 }
 
+void usage(void)
+{
+	fprintf(stderr, "Usage: cpuid [processor # (default 0)]\n");
+}
+
 int main(int argc, char *argv[])
 {
-	int cpu;
+	int cpu = 0;
 	uint32_t n;
+	char *endptr;
 
-	cpu = (argc > 1) ? atoi(argv[1]) : 0;
+	if (argc > 2) {
+		usage();
+		exit(127);
+	} else if (argc == 2) {
+		cpu = strtoul(argv[1], &endptr, 0);
+		if (*endptr || cpu > 255) {
+			usage();
+			exit(127);
+		}
+	}
 
 	printf
 	    ("Leaf     Subleaf    EAX            EBX            ECX            EDX            \n");
