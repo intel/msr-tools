@@ -184,7 +184,7 @@ int main(int argc, char *argv[])
 		exit(127);
 	} else if (argc == 2) {
 		cpu = strtoul(argv[1], &endptr, 0);
-		if (*endptr || cpu > 255) {
+		if (*endptr || cpu > 65535) {
 			usage();
 			exit(127);
 		}
