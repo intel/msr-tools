@@ -102,7 +102,7 @@ int main(int argc, char *argv[])
 			break;
 		case 'p':
 			arg = strtoul(optarg, &endarg, 0);
-			if (*endarg || arg > 255) {
+			if (*endarg || arg > 5119) {
 				usage();
 				exit(127);
 			}
