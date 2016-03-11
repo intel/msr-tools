@@ -39,6 +39,7 @@ static const struct option long_options[] = {
 	{0, 0, 0, 0}
 };
 static const char short_options[] = "hVap:";
+static int doing_for_all = 0;
 
 const char *program;
 
@@ -123,6 +124,7 @@ int main(int argc, char *argv[])
 	reg = strtoul(argv[optind++], NULL, 0);
 
 	if (cpu == -1) {
+		doing_for_all = 1;
 		wrmsr_on_all_cpus(reg, argc - optind, &argv[optind]);
 	} else {
 		wrmsr_on_cpu(reg, cpu, argc - optind, &argv[optind]);
@@ -141,6 +143,8 @@ void wrmsr_on_cpu(uint32_t reg, int cpu, int valcnt, char *regvals[])
 	fd = open(msr_file_name, O_WRONLY);
 	if (fd < 0) {
 		if (errno == ENXIO) {
+			if (doing_for_all)
+				return;
 			fprintf(stderr, "wrmsr: No CPU %d\n", cpu);
 			exit(2);
 		} else if (errno == EIO) {
