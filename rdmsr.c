@@ -50,6 +50,7 @@ static const struct option long_options[] = {
 	{0, 0, 0, 0}
 };
 static const char short_options[] = "hVxXdoruc0ap:f:";
+static int doing_for_all = 0;
 
 /* Number of decimal digits for a certain number of bits */
 /* (int) ceil(log(2^n)/log(10)) */
@@ -196,6 +197,7 @@ int main(int argc, char *argv[])
 	reg = strtoul(argv[optind], NULL, 0);
 
 	if (cpu == -1) {
+		doing_for_all = 1;
 		rdmsr_on_all_cpus(reg);
 	}
 	else
@@ -216,6 +218,8 @@ void rdmsr_on_cpu(uint32_t reg, int cpu)
 	fd = open(msr_file_name, O_RDONLY);
 	if (fd < 0) {
 		if (errno == ENXIO) {
+			if (doing_for_all)
+				return;
 			fprintf(stderr, "rdmsr: No CPU %d\n", cpu);
 			exit(2);
 		} else if (errno == EIO) {
@@ -350,7 +354,10 @@ void rdmsr_on_cpu(uint32_t reg, int cpu)
 	if (width < 1)
 		width = 1;
 
-	if (pat)
+	if (pat) {
+		if (doing_for_all)
+			printf("CPU %d: ", cpu);
 		printf(pat, width, data);
+	}
 	return;
 }
