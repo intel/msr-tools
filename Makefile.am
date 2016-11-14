@@ -1,7 +1,7 @@
 AM_CFLAGS = -Wall -g -O2 -fomit-frame-pointer \
 	-D_GNU_SOURCE -D_FILE_OFFSET_BITS=64
 
-bin_PROGRAMS = wrmsr rdmsr cpuid
+bin_PROGRAMS = wrmsr rdmsr msr-cpuid
 
 wrmsr_SOURCES =		\
 	wrmsr.c		\
@@ -15,7 +15,7 @@ rdmsr_SOURCES =		\
 
 rdmsr_CFLAGS = $(AM_CFLAGS)
 
-cpuid_SOURCES =		\
+msr_cpuid_SOURCES =		\
 	cpuid.c
 
-cpuid_CFLAGS = $(AM_CFLAGS)
+msr_cpuid_CFLAGS = $(AM_CFLAGS)
