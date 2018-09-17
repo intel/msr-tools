@@ -121,7 +121,11 @@ int main(int argc, char *argv[])
 		exit(127);
 	}
 
-	reg = strtoul(argv[optind++], NULL, 0);
+	reg = strtoul(argv[optind++], &endarg, 0);
+	if (*endarg) {
+		printf("Failed to parse register number. Do you need a prefix?\n");
+		exit(127);
+	}
 
 	if (cpu == -1) {
 		doing_for_all = 1;
