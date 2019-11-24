@@ -196,7 +196,7 @@ int main(int argc, char *argv[])
 
 	reg = strtoul(argv[optind], &endarg, 0);
 	if (*endarg) {
-		printf("Failed to parse register number. Do you need a prefix?\n");
+		fprintf(stderr, "rdmsr: failed to parse register number\n");
 		exit(127);
 	}
 
