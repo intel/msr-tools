@@ -34,7 +34,7 @@ AC_MSG_RESULT([
         ========
 
         prefix:                 ${prefix}
-        bindir:                 ${bindir}
+        sbindir:                ${sbindir}
 
         compiler:               ${CC}
         cflags:                 ${CFLAGS}
