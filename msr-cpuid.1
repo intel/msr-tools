@@ -1,0 +1,27 @@
+.\"
+.\" msr-cpuid(1)
+.\"
+.\" Copyright (C) 2013 Andres Salomon
+.TH msr-cpuid 1 "Oct 2013"
+.SH NAME
+msr-cpuid \- tool for reading CPUIDs from x86 processors
+.SH SYNOPSIS
+.B "msr-cpuid [processor # (default 0)]"
+.SH DESCRIPTION
+.B msr-cpuid
+is a tool used for reading a processor's CPUID.
+.br
+Note: if you're running a Debian kernel, be sure that the cpuid.ko kernel
+module is loaded. 'modprobe cpuid' should do the trick. Otherwise, you'll
+get an error about
+.B msr-cpuid 
+not being able to open files in /dev/cpu/...
+.BR
+.SH AUTHOR
+.br
+.B msr-cpuid 
+was written by Intel
+
+This man page was contributed by Andres Salomon <dilinger@debian.org>
+for the Debian GNU/Linux system (but may be used by others).
+
