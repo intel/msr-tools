@@ -2,6 +2,7 @@ AM_CFLAGS = -Wall -g -O2 -fomit-frame-pointer \
 	-D_GNU_SOURCE -D_FILE_OFFSET_BITS=64
 
 bin_PROGRAMS = wrmsr rdmsr msr-cpuid
+man8_MANS = wrmsr.8 rdmsr.8 msr-cpuid.8
 
 wrmsr_SOURCES =		\
 	wrmsr.c		\
