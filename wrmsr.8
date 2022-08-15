@@ -1,0 +1,43 @@
+.\"
+.\" wrmsr(8)
+.\"
+.\" Copyright (C) 2008 Andres Salomon
+.TH wrmsr 8 "Mar 2008"
+.SH NAME
+wrmsr \- tool for writing CPU machine specific registers (MSR)
+.SH SYNOPSIS
+.B "wrmsr [options] regno value"
+.SH DESCRIPTION
+.B wrmsr
+is a tool used for writing values to a CPU's machine specific registers (MSR).
+.br
+Note: if you're running a distribution kernel, be sure that the msr.ko kernel
+module is loaded. 'modprobe msr' should do the trick. Otherwise, you'll
+get an error about
+.B wrmsr
+not being able to open files in /dev/cpu/...
+.SH OPTIONS
+.TP
+.B --help,          -h
+Print a list of available options
+.TP
+.B --version,       -V
+Print current version
+.TP
+.B --all,           -a
+All processors
+.TP
+.B --processor <#>, -p
+Select processor number (default: 0)
+.TP
+.BR
+.SH SEE ALSO
+.BR rdmsr(8)
+.SH AUTHOR
+.br
+.B wrmsr
+was written by Transmeta Corporation
+
+This man page was contributed by Andres Salomon <dilinger@debian.org>
+for the Debian GNU/Linux system (but may be used by others).
+
