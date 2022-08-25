@@ -1,0 +1,73 @@
+.\"
+.\" rdmsr(8)
+.\"
+.\" Copyright (C) 2008 Andres Salomon
+.TH rdmsr 8 "Mar 2008"
+.SH NAME
+rdmsr \- tool for reading CPU machine specific registers (MSR)
+.SH SYNOPSIS
+.B "rdmsr [options] regno"
+.SH DESCRIPTION
+.B rdmsr
+is a tool used for reading a CPU's machine specific registers (MSR).
+.br
+Note: if you're running a distribution kernel, be sure that the msr.ko kernel
+module is loaded. 'modprobe msr' should do the trick. Otherwise, you'll
+get an error about
+.B rdmsr
+not being able to open files in /dev/cpu/...
+.SH OPTIONS
+.TP
+.B --help,          -h
+Print a list of available options
+.TP
+.B --version,       -V
+Print current version
+.TP
+.B --hexadecimal,   -x
+Display output in hexadecimal (lower case)
+.TP
+.B --capital-hex,   -X
+Display output in hexadecimal (upper case)
+.TP
+.B --decimal,       -d
+Display output in signed decimal
+.TP
+.B --unsigned,      -u
+Display output in unsigned decimal
+.TP
+.B --octal,         -o
+Display output in octal
+.TP
+.B --c-language,    -c
+Format output as a C language constant
+.TP
+.B --zero-pad,      -0
+Output leading zeroes
+.TP
+.B --zero-pad,      -0
+Output leading zeroes
+.TP
+.B --raw,           -r
+Output raw binary
+.TP
+.B --all,           -a
+All processors
+.TP
+.B --processor <#>, -p
+Select processor number (default: 0)
+.TP
+.B --bitfield h:l, -f
+Output bits [h:l] only
+.TP
+.BR
+.SH SEE ALSO
+.BR wrmsr(8)
+.SH AUTHOR
+.br
+.B rdmsr
+was written by Transmeta Corporation
+
+This man page was contributed by Andres Salomon <dilinger@debian.org>
+for the Debian GNU/Linux system (but may be used by others).
+
