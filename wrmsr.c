@@ -121,7 +121,11 @@ int main(int argc, char *argv[])
 		exit(127);
 	}
 
-	reg = strtoul(argv[optind++], NULL, 0);
+	reg = strtoul(argv[optind++], &endarg, 0);
+	if (*endarg) {
+		fprintf(stderr, "wrmsr: failed to parse register number\n");
+		exit(127);
+	}
 
 	if (cpu == -1) {
 		doing_for_all = 1;
